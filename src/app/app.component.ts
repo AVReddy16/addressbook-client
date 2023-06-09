@@ -17,6 +17,7 @@ export class AppComponent implements OnInit {
     phone: '',
   };
   selectedAddress: AddressBook | null = null;
+  showAddressForm = false;
 
   constructor(private addressService: AddressService) {
     this.getAddresses();
@@ -24,6 +25,16 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAddresses();
+  }
+
+  showUpdateForm(address: AddressBook): void {
+    this.selectedAddress = address;
+    this.showAddressForm = true;
+  }
+
+  hideForm(): void {
+    this.selectedAddress = null;
+    this.showAddressForm = false;
   }
 
   getAddresses(): void {
@@ -54,6 +65,8 @@ export class AppComponent implements OnInit {
           );
           if (index !== -1) {
             this.addresses[index] = updatedAddress;
+            this.selectedAddress = null;
+            this.showAddressForm = false;
           }
         },
         (error) => {
